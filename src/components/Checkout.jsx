@@ -25,6 +25,19 @@ export default function Checkout() {
     const fd = new FormData(event.target);
     const customerData = Object.fromEntries(fd.entries()); // 데이터를 받아서 백엔드로 보내기
     // console.log(customerData);
+
+    fetch("http://localhost:3000/orders", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        order: {
+          items: cartCtx.items,
+          customer: customerData,
+        },
+      }),
+    });
   }
 
   return (
@@ -33,7 +46,8 @@ export default function Checkout() {
         <h2>체크아웃</h2>
         <p>토탈: {currencyFormatter.format(cartTotal)}</p>
 
-        <Input label="이름" type="text" id="full-name" />
+        {/* 프론트, 백엔드 필드 값이 동일해야 주고 받고 할 수 있다. */}
+        <Input label="이름" type="text" id="name" />
         <Input label="이메일" type="email" id="email" />
         <Input label="주소" type="text" id="street" />
         <div className="control-row">
