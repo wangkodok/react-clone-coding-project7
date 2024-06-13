@@ -19,9 +19,17 @@ export default function Checkout() {
     userProgressCtx.hideCheckout();
   }
 
+  function handleSubmit(event) {
+    event.preventDefault();
+
+    const fd = new FormData(event.target);
+    const customerData = Object.fromEntries(fd.entries()); // 데이터를 받아서 백엔드로 보내기
+    // console.log(customerData);
+  }
+
   return (
     <Modal open={userProgressCtx.progress === "checkout"} onClose={handleClose}>
-      <form>
+      <form onSubmit={handleSubmit}>
         <h2>체크아웃</h2>
         <p>토탈: {currencyFormatter.format(cartTotal)}</p>
 
